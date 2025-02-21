@@ -50,4 +50,14 @@ public class LoanTransactionController {
                 .build();
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/{id}/pay")
+    public ResponseEntity<CommonResponse<LoanTransactionResponse>> payInstalment(@PathVariable String id) {
+        LoanTransactionResponse loanTransactionResponse = loanTransactionService.payInstalment(id);
+        CommonResponse<LoanTransactionResponse> response = CommonResponse.<LoanTransactionResponse>builder()
+                .message("Successfully pay instalment.")
+                .data(loanTransactionResponse)
+                .build();
+        return ResponseEntity.ok(response);
+    }
 }

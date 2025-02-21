@@ -2,21 +2,13 @@ package com.enigmacamp.enigma_loan_app.service.impl;
 
 import com.enigmacamp.enigma_loan_app.constant.ApprovalStatus;
 import com.enigmacamp.enigma_loan_app.constant.EInstalmentType;
+import com.enigmacamp.enigma_loan_app.constant.LoanStatus;
 import com.enigmacamp.enigma_loan_app.dto.request.ApprovedLoanTransactionRequest;
 import com.enigmacamp.enigma_loan_app.dto.request.NewLoanTransactionRequest;
-import com.enigmacamp.enigma_loan_app.dto.response.CustomerResponse;
-import com.enigmacamp.enigma_loan_app.dto.response.InstalmentTypeResponse;
-import com.enigmacamp.enigma_loan_app.dto.response.LoanTransactionResponse;
-import com.enigmacamp.enigma_loan_app.dto.response.LoanTypeResponse;
-import com.enigmacamp.enigma_loan_app.entity.Customer;
-import com.enigmacamp.enigma_loan_app.entity.InstalmentType;
-import com.enigmacamp.enigma_loan_app.entity.LoanTransaction;
-import com.enigmacamp.enigma_loan_app.entity.LoanType;
+import com.enigmacamp.enigma_loan_app.dto.response.*;
+import com.enigmacamp.enigma_loan_app.entity.*;
 import com.enigmacamp.enigma_loan_app.repository.LoanTransactionRepository;
-import com.enigmacamp.enigma_loan_app.service.CustomerService;
-import com.enigmacamp.enigma_loan_app.service.InstalmentTypeService;
-import com.enigmacamp.enigma_loan_app.service.LoanTransactionService;
-import com.enigmacamp.enigma_loan_app.service.LoanTypeService;
+import com.enigmacamp.enigma_loan_app.service.*;
 import com.enigmacamp.enigma_loan_app.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +26,7 @@ public class LoanTransactionServiceImpl implements LoanTransactionService {
     private final LoanTypeService loanTypeService;
     private final InstalmentTypeService instalmentTypeService;
     private final CustomerService customerService;
+    private final LoanTransactionDetailService loanTransactionDetailService;
 
     @Override
     public LoanTransactionResponse requestLoan(NewLoanTransactionRequest request) {
@@ -67,6 +62,7 @@ public class LoanTransactionServiceImpl implements LoanTransactionService {
                 .build();
 
         loanTransactionRepository.saveAndFlush(loanTransaction);
+
         return LoanTransactionResponse.builder()
                 .id(loanTransaction.getId())
                 .loanTypeId(loanTransaction.getLoanType().getId())
@@ -94,7 +90,7 @@ public class LoanTransactionServiceImpl implements LoanTransactionService {
     public LoanTransactionResponse approvedByAdmin(String id, ApprovedLoanTransactionRequest request) {
         LoanTransaction loanTransaction = getLoanTransaction(id);
 
-//        Double interest = loanTransaction.getNominal() * request.getInterestRate();
+        Double interest = loanTransaction.getNominal() * request.getInterestRate();
 
         loanTransaction.setApprovedBy("admin1@gmail.com");
         loanTransaction.setApprovedAt(new Date());
@@ -102,6 +98,26 @@ public class LoanTransactionServiceImpl implements LoanTransactionService {
         loanTransaction.setUpdatedAt(new Date());
 
         loanTransactionRepository.saveAndFlush(loanTransaction);
+
+        LoanTransactionDetail loanTransactionDetail = LoanTransactionDetail.builder()
+                .transactionDate(new Date())
+                .nominal(loanTransaction.getNominal() + interest)
+                .loanTransaction(loanTransaction)
+                .loanStatus(LoanStatus.UNPAID)
+                .createdAt(new Date())
+                .build();
+
+        loanTransactionDetailService.createBulk(List.of(loanTransactionDetail));
+
+        loanTransaction.setLoanTransactionDetails(List.of(loanTransactionDetail));
+
+        List<LoanTransactionDetailResponse> detailResponses = Stream.of(loanTransactionDetail).map(detail -> LoanTransactionDetailResponse.builder()
+                .id(detail.getId())
+                .transactionDate(detail.getTransactionDate())
+                .loanStatus(detail.getLoanStatus().name())
+                .nominal(detail.getNominal())
+                .createdAt(detail.getCreatedAt())
+                .build()).toList();
 
         return LoanTransactionResponse.builder()
                 .id(loanTransaction.getId())
@@ -112,6 +128,43 @@ public class LoanTransactionServiceImpl implements LoanTransactionService {
                 .approvedAt(loanTransaction.getApprovedAt())
                 .approvedBy(loanTransaction.getApprovedBy())
                 .approvalStatus(loanTransaction.getApprovalStatus().name())
+                .createdAt(loanTransaction.getCreatedAt())
+                .updatedAt(loanTransaction.getUpdatedAt())
+                .transactionDetailResponses(detailResponses)
+                .build();
+    }
+
+    @Override
+    public LoanTransactionResponse payInstalment(String id) {
+        LoanTransaction loanTransaction = getLoanTransaction(id);
+        List<LoanTransactionDetail> loanTransactionDetails = loanTransactionDetailService.getByTransaction(loanTransaction.getId());
+        LoanTransactionDetail loanTransactionDetail = loanTransactionDetails.get(loanTransactionDetails.size() - 1);
+
+        loanTransactionDetail.setLoanStatus(LoanStatus.PAID);
+        loanTransactionDetail.setTransactionDate(new Date());
+        loanTransactionDetail.setUpdatedAt(new Date());
+
+        loanTransactionDetailService.update(loanTransactionDetail);
+
+        List<LoanTransactionDetailResponse> detailResponses = Stream.of(loanTransactionDetail).map(detail -> LoanTransactionDetailResponse.builder()
+                .id(detail.getId())
+                .transactionDate(detail.getTransactionDate())
+                .loanStatus(detail.getLoanStatus().name())
+                .nominal(detail.getNominal())
+                .createdAt(detail.getCreatedAt())
+                .updatedAt(detail.getUpdatedAt())
+                .build()).toList();
+
+        return LoanTransactionResponse.builder()
+                .id(loanTransaction.getId())
+                .loanTypeId(loanTransaction.getLoanType().getId())
+                .instalmentTypeId(loanTransaction.getInstalmentType().getId())
+                .customerId(loanTransaction.getCustomer().getId())
+                .nominal(loanTransaction.getNominal())
+                .approvedAt(loanTransaction.getApprovedAt())
+                .approvedBy(loanTransaction.getApprovedBy())
+                .approvalStatus(loanTransaction.getApprovalStatus().name())
+                .transactionDetailResponses(detailResponses)
                 .createdAt(loanTransaction.getCreatedAt())
                 .updatedAt(loanTransaction.getUpdatedAt())
                 .build();
