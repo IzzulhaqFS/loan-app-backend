@@ -5,4 +5,5 @@ import com.enigmacamp.enigma_loan_app.dto.response.LoanTransactionResponse;
 
 public interface LoanTransactionService {
     LoanTransactionResponse requestLoan(NewLoanTransactionRequest request);
+    LoanTransactionResponse getById(String id);
 }

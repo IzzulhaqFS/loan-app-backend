@@ -17,7 +17,9 @@ import com.enigmacamp.enigma_loan_app.service.LoanTransactionService;
 import com.enigmacamp.enigma_loan_app.service.LoanTypeService;
 import com.enigmacamp.enigma_loan_app.util.DateUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 
@@ -63,6 +65,19 @@ public class LoanTransactionServiceImpl implements LoanTransactionService {
                 .build();
 
         loanTransactionRepository.saveAndFlush(loanTransaction);
+        return LoanTransactionResponse.builder()
+                .id(loanTransaction.getId())
+                .loanTypeId(loanTransaction.getLoanType().getId())
+                .instalmentTypeId(loanTransaction.getInstalmentType().getId())
+                .customerId(loanTransaction.getCustomer().getId())
+                .nominal(loanTransaction.getNominal())
+                .createdAt(loanTransaction.getCreatedAt())
+                .build();
+    }
+
+    @Override
+    public LoanTransactionResponse getById(String id) {
+        LoanTransaction loanTransaction = loanTransactionRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Transaction not found."));
         return LoanTransactionResponse.builder()
                 .id(loanTransaction.getId())
                 .loanTypeId(loanTransaction.getLoanType().getId())
