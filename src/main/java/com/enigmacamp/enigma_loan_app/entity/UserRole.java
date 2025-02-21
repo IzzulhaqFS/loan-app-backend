@@ -20,9 +20,9 @@ public class UserRole {
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference
-    private String userId;
+    private AppUser user;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
-    private String roleId;
+    private Role role;
 }

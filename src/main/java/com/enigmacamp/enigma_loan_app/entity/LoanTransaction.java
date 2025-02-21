@@ -56,6 +56,6 @@ public class LoanTransaction {
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at")
+    @Column(name = "updated_at")
     private Date updatedAt;
 }

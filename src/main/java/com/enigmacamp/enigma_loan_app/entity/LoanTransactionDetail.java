@@ -30,8 +30,8 @@ public class LoanTransactionDetail {
     @JoinColumn(name = "trx_id")
     private LoanTransaction loanTransaction;
 
-    @ManyToOne
-    @JoinColumn(name = "loan_status_id")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "loan_status")
     private LoanStatus loanStatus;
 
     @Temporal(TemporalType.TIMESTAMP)

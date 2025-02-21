@@ -22,10 +22,7 @@ public class AppUserServiceImpl implements AppUserService {
     public AppUserResponse getById(String id) {
         AppUser user = appUserRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found."));
 
-        List<String> roles = user.getRoles().stream().map(userRole -> {
-            String roleId = userRole.getRoleId();
-            return roleService.getById(roleId).getRole().name();
-        }).toList();
+        List<String> roles = user.getRoles().stream().map(userRole -> roleService.getById(userRole.getRole().getId()).getRole().name()).toList();
 
         return AppUserResponse.builder()
                 .email(user.getEmail())
