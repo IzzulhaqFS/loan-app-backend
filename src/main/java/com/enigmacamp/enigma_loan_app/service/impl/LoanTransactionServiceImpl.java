@@ -1,6 +1,8 @@
 package com.enigmacamp.enigma_loan_app.service.impl;
 
+import com.enigmacamp.enigma_loan_app.constant.ApprovalStatus;
 import com.enigmacamp.enigma_loan_app.constant.EInstalmentType;
+import com.enigmacamp.enigma_loan_app.dto.request.ApprovedLoanTransactionRequest;
 import com.enigmacamp.enigma_loan_app.dto.request.NewLoanTransactionRequest;
 import com.enigmacamp.enigma_loan_app.dto.response.CustomerResponse;
 import com.enigmacamp.enigma_loan_app.dto.response.InstalmentTypeResponse;
@@ -77,7 +79,7 @@ public class LoanTransactionServiceImpl implements LoanTransactionService {
 
     @Override
     public LoanTransactionResponse getById(String id) {
-        LoanTransaction loanTransaction = loanTransactionRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Transaction not found."));
+        LoanTransaction loanTransaction = getLoanTransaction(id);
         return LoanTransactionResponse.builder()
                 .id(loanTransaction.getId())
                 .loanTypeId(loanTransaction.getLoanType().getId())
@@ -86,6 +88,37 @@ public class LoanTransactionServiceImpl implements LoanTransactionService {
                 .nominal(loanTransaction.getNominal())
                 .createdAt(loanTransaction.getCreatedAt())
                 .build();
+    }
+
+    @Override
+    public LoanTransactionResponse approvedByAdmin(String id, ApprovedLoanTransactionRequest request) {
+        LoanTransaction loanTransaction = getLoanTransaction(id);
+
+//        Double interest = loanTransaction.getNominal() * request.getInterestRate();
+
+        loanTransaction.setApprovedBy("admin1@gmail.com");
+        loanTransaction.setApprovedAt(new Date());
+        loanTransaction.setApprovalStatus(ApprovalStatus.APPROVED);
+        loanTransaction.setUpdatedAt(new Date());
+
+        loanTransactionRepository.saveAndFlush(loanTransaction);
+
+        return LoanTransactionResponse.builder()
+                .id(loanTransaction.getId())
+                .loanTypeId(loanTransaction.getLoanType().getId())
+                .instalmentTypeId(loanTransaction.getInstalmentType().getId())
+                .customerId(loanTransaction.getCustomer().getId())
+                .nominal(loanTransaction.getNominal())
+                .approvedAt(loanTransaction.getApprovedAt())
+                .approvedBy(loanTransaction.getApprovedBy())
+                .approvalStatus(loanTransaction.getApprovalStatus().name())
+                .createdAt(loanTransaction.getCreatedAt())
+                .updatedAt(loanTransaction.getUpdatedAt())
+                .build();
+    }
+
+    private LoanTransaction getLoanTransaction(String id) {
+        return loanTransactionRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Transaction not found."));
     }
 
     private static EInstalmentType getEInstalmentType(String instalmentType) {

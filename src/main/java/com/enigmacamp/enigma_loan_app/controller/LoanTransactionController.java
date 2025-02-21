@@ -1,5 +1,6 @@
 package com.enigmacamp.enigma_loan_app.controller;
 
+import com.enigmacamp.enigma_loan_app.dto.request.ApprovedLoanTransactionRequest;
 import com.enigmacamp.enigma_loan_app.dto.request.NewLoanTransactionRequest;
 import com.enigmacamp.enigma_loan_app.dto.response.CommonResponse;
 import com.enigmacamp.enigma_loan_app.dto.response.LoanTransactionResponse;
@@ -32,6 +33,19 @@ public class LoanTransactionController {
         LoanTransactionResponse loanTransactionResponse = loanTransactionService.getById(id);
         CommonResponse<LoanTransactionResponse> response = CommonResponse.<LoanTransactionResponse>builder()
                 .message("Successfully get Loan Transaction with ID: " + id + ".")
+                .data(loanTransactionResponse)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}/approve")
+    public ResponseEntity<CommonResponse<LoanTransactionResponse>> approveByAdmin(
+            @PathVariable String id,
+            @RequestBody ApprovedLoanTransactionRequest request
+    ) {
+        LoanTransactionResponse loanTransactionResponse = loanTransactionService.approvedByAdmin(id, request);
+        CommonResponse<LoanTransactionResponse> response = CommonResponse.<LoanTransactionResponse>builder()
+                .message("Successfully approve Loan Transaction with ID: " + id + ".")
                 .data(loanTransactionResponse)
                 .build();
         return ResponseEntity.ok(response);
