@@ -21,7 +21,8 @@ public class SecurityConfiguration {
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers("/api/**").permitAll()
                         .anyRequest().authenticated()
-                );
+                )
+                .addFilterBefore();
         return httpSecurity.build();
     }
 }
