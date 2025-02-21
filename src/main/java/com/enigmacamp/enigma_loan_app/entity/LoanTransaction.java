@@ -37,14 +37,15 @@ public class LoanTransaction {
     private Double nominal;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "approved_at", nullable = false)
+    @Column(name = "approved_at")
     private Date approvedAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "approved_by", nullable = false)
+    @Column(name = "approved_by")
     private String approvedBy;
 
-    @Column(name = "approval_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "approval_status")
     private ApprovalStatus approvalStatus;
 
     @OneToMany

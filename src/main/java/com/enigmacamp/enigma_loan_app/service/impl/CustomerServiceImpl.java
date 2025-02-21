@@ -1,5 +1,6 @@
 package com.enigmacamp.enigma_loan_app.service.impl;
 
+import com.enigmacamp.enigma_loan_app.dto.request.NewCustomerRequest;
 import com.enigmacamp.enigma_loan_app.dto.request.UpdateCustomerRequest;
 import com.enigmacamp.enigma_loan_app.dto.response.CustomerResponse;
 import com.enigmacamp.enigma_loan_app.entity.Customer;
@@ -18,6 +19,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
+
+    @Override
+    public CustomerResponse create(NewCustomerRequest request) {
+        Customer customer = Customer.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .dateOfBirth(DateUtil.parseDate(request.getDateOfBirth(), "yyyy-MM-dd"))
+                .phone(request.getPhone())
+                .status(request.getStatus())
+                .build();
+        customerRepository.saveAndFlush(customer);
+        return getCustomerResponse(customer);
+    }
 
     @Override
     public CustomerResponse getById(String id) {
