@@ -24,7 +24,7 @@ public class Customer {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @Column(name = "dateOfBirth", nullable = false)
     private Date dateOfBirth;
 
