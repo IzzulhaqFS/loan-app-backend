@@ -3,10 +3,7 @@ package com.enigmacamp.enigma_loan_app.entity;
 import com.enigmacamp.enigma_loan_app.constant.ApprovalStatus;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +13,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "t_loan_transaction")
 public class LoanTransaction {
 

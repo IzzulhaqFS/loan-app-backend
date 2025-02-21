@@ -2,10 +2,7 @@ package com.enigmacamp.enigma_loan_app.entity;
 
 import com.enigmacamp.enigma_loan_app.constant.LoanStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
@@ -14,6 +11,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "t_loan_transaction_detail")
 public class LoanTransactionDetail {
 
