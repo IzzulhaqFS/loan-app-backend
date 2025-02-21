@@ -1,0 +1,567 @@
+{
+	"info": {
+		"_postman_id": "03ab1fc2-bec8-411f-b714-85793c727683",
+		"name": "EnigmaLoanApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20597115"
+	},
+	"item": [
+		{
+			"name": "Auth Signup",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"staff1@gmail.com\",\r\n    \"password\": \"staff1@1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/auth/signup/customer",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"signup",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User By Id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/users/d1547e57-b0de-49d3-8263-08f77f1a6246",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"d1547e57-b0de-49d3-8263-08f77f1a6246"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Customer 3\",\r\n    \"lastName\": \"Customer\",\r\n    \"dateOfBirth\": \"2000-01-03\",\r\n    \"phone\": \"085123456791\",\r\n    \"status\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/customers",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customer By Id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/customers/a4b52183-4667-4f1a-96fc-8baa6b248497",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers",
+						"a4b52183-4667-4f1a-96fc-8baa6b248497"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Customer",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/customers",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"a4b52183-4667-4f1a-96fc-8baa6b248497\",\r\n    \"firstName\": \"Customer 1\",\r\n    \"lastName\": \"Customer\",\r\n    \"dateOfBirth\": \"2000-01-01\",\r\n    \"phone\": \"085123456799\",\r\n    \"status\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/customers",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Customer",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/customers/c1d0b06f-c6ef-4405-8182-4abb0b9d9fa2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customers",
+						"c1d0b06f-c6ef-4405-8182-4abb0b9d9fa2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create InstalmentType",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"instalmentType\": \"TWELVE_MONTHS\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/instalment-types",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"instalment-types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get InstalmentType By Id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/instalment-types/454103b0-a021-46a4-9a0a-e7fdee4f0ea6",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"instalment-types",
+						"454103b0-a021-46a4-9a0a-e7fdee4f0ea6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all InstalmentType",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/instalment-types",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"instalment-types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update InstalmentType",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"454103b0-a021-46a4-9a0a-e7fdee4f0ea6\",\r\n    \"instalmentType\": \"TWELVE_MONTHS\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/instalment-types",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"instalment-types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete InstalmentType",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/instalment-types/454103b0-a021-46a4-9a0a-e7fdee4f0ea6",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"instalment-types",
+						"454103b0-a021-46a4-9a0a-e7fdee4f0ea6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create LoanType",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"Pinjaman Kredit Elektronik\",\r\n    \"maxLoan\": 10000000.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/loan-types",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"loan-types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All LoanType",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/loan-types",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"loan-types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get LoanType By Id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/loan-types/b60087a9-9428-4173-ae8c-a39ec0d3cfd8",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"loan-types",
+						"b60087a9-9428-4173-ae8c-a39ec0d3cfd8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update LoanType",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"b60087a9-9428-4173-ae8c-a39ec0d3cfd8\",\r\n    \"type\": \"Pinjaman Kredit Perumahan\",\r\n    \"maxLoan\": 100000000.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/loan-types",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"loan-types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete LoanType",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/loan-types/b60087a9-9428-4173-ae8c-a39ec0d3cfd8",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"loan-types",
+						"b60087a9-9428-4173-ae8c-a39ec0d3cfd8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request Loan",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"loanType\": \"f6dff701-3652-41db-a965-f38d8a276be1\",\r\n    \"instalmentType\": \"23d0196f-def8-44ae-8d5c-ab59932eb702\",\r\n    \"customer\": \"a4b52183-4667-4f1a-96fc-8baa6b248497\",\r\n    \"nominal\": 20000000.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/transactions",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get LoanTransaction By Id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/transactions/30b818f1-b484-4fca-af1f-b51395e324a5",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transactions",
+						"30b818f1-b484-4fca-af1f-b51395e324a5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Approve LoanTransaction By Admin",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"loanTransactionId\": \"30b818f1-b484-4fca-af1f-b51395e324a5\",\r\n    \"interestRate\": 3.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/transactions/30b818f1-b484-4fca-af1f-b51395e324a5/approve",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transactions",
+						"30b818f1-b484-4fca-af1f-b51395e324a5",
+						"approve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pay Instalment",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/transactions/30b818f1-b484-4fca-af1f-b51395e324a5/pay",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transactions",
+						"30b818f1-b484-4fca-af1f-b51395e324a5",
+						"pay"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
