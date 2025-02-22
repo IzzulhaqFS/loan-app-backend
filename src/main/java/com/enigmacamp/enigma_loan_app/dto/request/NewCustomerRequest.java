@@ -14,5 +14,4 @@ public class NewCustomerRequest {
     private String lastName;
     private String dateOfBirth;
     private String phone;
-    private String status;
 }

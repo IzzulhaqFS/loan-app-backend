@@ -8,6 +8,7 @@ import com.enigmacamp.enigma_loan_app.service.InstalmentTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class InstalmentTypeController {
     private final InstalmentTypeService instalmentTypeService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<CommonResponse<InstalmentTypeResponse>> create(@RequestBody NewInstalmentTypeRequest request) {
         InstalmentTypeResponse instalmentTypeResponse = instalmentTypeService.create(request);
         CommonResponse<InstalmentTypeResponse> response = CommonResponse.<InstalmentTypeResponse>builder()

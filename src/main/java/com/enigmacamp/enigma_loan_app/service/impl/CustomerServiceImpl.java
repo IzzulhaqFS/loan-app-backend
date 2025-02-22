@@ -27,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .lastName(request.getLastName())
                 .dateOfBirth(DateUtil.parseDate(request.getDateOfBirth(), "yyyy-MM-dd"))
                 .phone(request.getPhone())
-                .status(request.getStatus())
+                .status("Active")
                 .build();
         customerRepository.saveAndFlush(customer);
         return getCustomerResponse(customer);
@@ -63,7 +63,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void delete(String id) {
         Customer customer = getCustomer(id);
-        customerRepository.delete(customer);
+        customerRepository.softDelete(customer.getId(), "Inactive");
     }
 
     private Customer getCustomer(String id) {

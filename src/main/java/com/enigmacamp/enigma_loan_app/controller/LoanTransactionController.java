@@ -8,6 +8,7 @@ import com.enigmacamp.enigma_loan_app.service.LoanTransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,7 @@ public class LoanTransactionController {
     private final LoanTransactionService loanTransactionService;
 
     @PostMapping
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<CommonResponse<LoanTransactionResponse>> create(
             @RequestBody NewLoanTransactionRequest request
     ) {
@@ -39,6 +41,7 @@ public class LoanTransactionController {
     }
 
     @PutMapping("/{id}/approve")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<CommonResponse<LoanTransactionResponse>> approveByAdmin(
             @PathVariable String id,
             @RequestBody ApprovedLoanTransactionRequest request
