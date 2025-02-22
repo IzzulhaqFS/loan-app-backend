@@ -3,7 +3,11 @@ package com.enigmacamp.enigma_loan_app.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -13,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Table(name = "m_user")
-public class AppUser {
+public class AppUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -28,4 +32,15 @@ public class AppUser {
     @OneToMany
     @JsonManagedReference
     private List<UserRole> roles;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<Role> roleList = roles.stream().map(UserRole::getRole).toList();
+        return roleList.stream().map(role -> new SimpleGrantedAuthority(role.getRole().name())).toList();
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
 }

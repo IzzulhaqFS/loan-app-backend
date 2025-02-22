@@ -1,17 +1,25 @@
 package com.enigmacamp.enigma_loan_app.service.impl;
 
 import com.enigmacamp.enigma_loan_app.constant.ERole;
+import com.enigmacamp.enigma_loan_app.dto.request.AuthRequest;
 import com.enigmacamp.enigma_loan_app.dto.request.NewAppUserRequest;
 import com.enigmacamp.enigma_loan_app.dto.response.AppUserResponse;
+import com.enigmacamp.enigma_loan_app.dto.response.AuthResponse;
 import com.enigmacamp.enigma_loan_app.entity.AppUser;
 import com.enigmacamp.enigma_loan_app.entity.Role;
 import com.enigmacamp.enigma_loan_app.entity.UserRole;
 import com.enigmacamp.enigma_loan_app.repository.AppUserRepository;
+import com.enigmacamp.enigma_loan_app.security.JwtAuthenticationFilter;
+import com.enigmacamp.enigma_loan_app.security.JwtTokenProvider;
 import com.enigmacamp.enigma_loan_app.service.AuthService;
 import com.enigmacamp.enigma_loan_app.service.RoleService;
 import com.enigmacamp.enigma_loan_app.service.UserRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,6 +33,9 @@ public class AuthServiceImpl implements AuthService {
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
     private final UserRoleService userRoleService;
+    private final JwtTokenProvider tokenProvider;
+    private final JwtAuthenticationFilter authenticationFilter;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public AppUserResponse adminRegister(NewAppUserRequest request) {
@@ -111,5 +122,22 @@ public class AuthServiceImpl implements AuthService {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Duplicated user.");
         }
+    }
+
+    @Override
+    public AuthResponse login(AuthRequest request) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+        );
+
+        User user = (User) authentication.getPrincipal();
+
+        String token = tokenProvider.generateToken(user.getUsername(), user.getAuthorities().toString());
+
+        return AuthResponse.builder()
+                .email(user.getUsername())
+                .role(user.getAuthorities().toString())
+                .token(token)
+                .build();
     }
 }

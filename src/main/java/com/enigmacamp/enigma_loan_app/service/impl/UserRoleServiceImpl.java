@@ -17,7 +17,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public UserRole getById(String id) {
-        return null;
+        return getUserRole(id);
     }
 
     @Override
@@ -27,21 +27,27 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public List<UserRole> getByRole(Role role) {
-        return null;
+        return userRoleRepository.getAllByRole(role.getId());
     }
 
     @Override
     public UserRole create(UserRole userRole) {
-        return null;
+        return userRoleRepository.saveAndFlush(userRole);
     }
 
     @Override
     public UserRole update(UserRole userRole) {
-        return null;
+        getUserRole(userRole.getId());
+        return userRoleRepository.saveAndFlush(userRole);
     }
 
     @Override
     public void delete(String id) {
+        UserRole userRole = getUserRole(id);
+        userRoleRepository.delete(userRole);
+    }
 
+    private UserRole getUserRole(String id) {
+        return userRoleRepository.findById(id).orElseThrow(() -> new RuntimeException("User with such role not found."));
     }
 }

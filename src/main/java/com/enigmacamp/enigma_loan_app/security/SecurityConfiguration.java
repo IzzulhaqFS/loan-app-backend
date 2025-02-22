@@ -1,5 +1,6 @@
 package com.enigmacamp.enigma_loan_app.security;
 
+import com.enigmacamp.enigma_loan_app.service.impl.RedisTokenBlacklistService;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration {
     private final JwtTokenProvider tokenProvider;
+    private final RedisTokenBlacklistService service;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -25,7 +27,7 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(
-                        new JwtAuthenticationFilter(tokenProvider),
+                        new JwtAuthenticationFilter(tokenProvider, service),
                         UsernamePasswordAuthenticationFilter.class
                 );
         return httpSecurity.build();

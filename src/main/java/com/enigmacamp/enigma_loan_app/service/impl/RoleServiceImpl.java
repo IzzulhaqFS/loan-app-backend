@@ -34,6 +34,8 @@ public class RoleServiceImpl implements RoleService {
                 roleType = ERole.ROLE_CUSTOMER;
             } else if (request.getName().equals("ROLE_STAFF")) {
                 roleType = ERole.ROLE_STAFF;
+            } else {
+                throw new RuntimeException("Invalid role.");
             }
         }
 
